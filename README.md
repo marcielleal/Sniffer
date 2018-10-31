@@ -11,3 +11,12 @@ It needs superuser permission to run
 
 * Sniffer file:
   * sudo ./sniffer
+
+## Author
+* Marciel Leal - marcielmanoel15@gmail.com
+
+## Available on:
+https://github.com/marcielleal/Sniffer
+
+
+ 
