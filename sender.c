@@ -1,24 +1,18 @@
-/*
-** Envia pacotes com o ip falso (ip spoofing)
-*/
-#include <stdlib.h>
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <linux/sockios.h>
 #include <sys/file.h>
-#include <sys/time.h>
+//#include <sys/time.h>
 #include <sys/signal.h>
 #include <sys/ioctl.h>
 #include <linux/if.h>
 #include <linux/if_packet.h>
 #include <linux/if_ether.h>
-//#include <net/if_arp.h>
 #include <sys/uio.h>
 
 #include <arpa/inet.h>
 #include <sys/types.h>
-//#include <netpacket/packet.h>
-#include <net/ethernet.h> /* the L2 protocols */
+#include <net/ethernet.h> 
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -35,7 +29,6 @@ int main(int argc, char** argv){
 	uint16_t name_size = 0;
 	char enrollment[9];
 	int dataSize;
-
 
 	if(argc < 2){
 		printf("Missing arguments.");
@@ -86,8 +79,6 @@ int main(int argc, char** argv){
 	strcpy(device, "wlp7s0");
 
 	sockfd = socket(PF_PACKET, SOCK_DGRAM, htons(ETH_P_IP) );
-	//sockfd = socket(PF_PACKET, SOCK_DGRAM, 0 );
-	 
 	memset(&ifr, 0, sizeof(ifr));
 	strcpy(ifr.ifr_name, device);
 	if (ioctl(sockfd, SIOCGIFINDEX, &ifr) < 0) {
@@ -114,10 +105,12 @@ int main(int argc, char** argv){
 	iph->id=0;
 	iph->frag_off=0;
 	iph->ttl=0x40;
-	iph->protocol=0x11; // 17 em Decimal
+	iph->protocol=0x11; 
 	iph->check=0x0;
-	memcpy(&iph->saddr,"\x0a\x01\x01\x08",4); //10.1.1.8 - Pode forcar o Ip de origem
-	memcpy(&iph->daddr,"\x0a\x01\x01\x01",4); //10.1.1.1
+	// memcpy(&iph->saddr,"\x7f\x00\x00\x01",4); 
+	// memcpy(&iph->daddr,"\x7f\x00\x00\x01",4); 
+	memcpy(&iph->saddr,"\xC0\xA8\x01\x70",4); 
+	memcpy(&iph->daddr,"\xC0\xA8\x01\x70",4); 
 
 	uh = (struct udphdr *)((uint8_t *)iph + 20);
 	uh->source = htons(1972);
