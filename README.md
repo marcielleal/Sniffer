@@ -7,7 +7,7 @@
 It needs superuser permission to run
 
 * Sender file:
-  * sudo ./sender student_enrollment [name_enrollment]
+  * sudo ./sender student_enrollment [student_name]
 
 * Sniffer file:
   * sudo ./sniffer
